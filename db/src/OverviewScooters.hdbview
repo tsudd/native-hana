@@ -1,0 +1,15 @@
+VIEW "native::OverviewScooters"
+AS SELECT
+    "native::Scooter"."ID",
+    "native::ScooterModel"."NAME" AS "Name",
+    "native::ScooterStatus"."NAME" AS "Status",
+    "native::Scooter"."CHARGELEVEL" AS "Battery"
+    -- "native::ScooterStatus"."DESCRIPTIONID"
+FROM
+    "native::Scooter"
+INNER JOIN
+    "native::ScooterModel"
+on "native::Scooter"."MODELID" = "native::ScooterModel"."ID"
+INNER JOIN
+    "native::ScooterStatus"
+ON "native::ScooterStatus"."ID" = "native::Scooter"."STATUS";
