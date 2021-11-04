@@ -1,0 +1,6 @@
+COLUMN TABLE "native::ScooterTexts" (
+    "ID" NVARCHAR(32) NOT NULL COMMENT 'Text ID',
+    "TEXT" NVARCHAR(100) COMMENT 'Text',
+    "LANGUAGE" VARCHAR COMMENT 'Language',
+    PRIMARY KEY("ID")
+)

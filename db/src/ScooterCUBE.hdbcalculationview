@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="native::ScooterCUBE" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" outputViewType="Aggregation" cacheInvalidationPeriod="NONE" enforceSqlExecution="true">
+<descriptions defaultDescription="ScooterCUBE"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="native::Scooter">
+    <resourceUri>native::Scooter</resourceUri>
+  </DataSource>
+  <DataSource id="native::ScooterStatus">
+    <resourceUri>native::ScooterStatus</resourceUri>
+  </DataSource>
+  <DataSource id="native::ScooterModel">
+    <resourceUri>native::ScooterModel</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_1_1" cardinality="CN_1" joinType="leftOuter" multiJoinNode="Join_1" multiJoinCentralTable="native::Scooter" multiJoinOrder="Outside In">
+    <viewAttributes>
+      <viewAttribute id="ID"/>
+      <viewAttribute id="CHARGELEVEL" aggregationType="sum"/>
+      <viewAttribute id="NAME_1"/>
+      <viewAttribute id="LOCATIONLAT" aggregationType="sum"/>
+      <viewAttribute id="LOCATIONLNG" aggregationType="sum"/>
+      <viewAttribute id="MODELID"/>
+      <viewAttribute hidden="true" id="JOIN$STATUS$ID"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="native::Scooter">
+      <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CHARGELEVEL" source="CHARGELEVEL"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LOCATIONLAT" source="LOCATIONLAT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LOCATIONLNG" source="LOCATIONLNG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="MODELID" source="MODELID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$STATUS$ID" source="STATUS"/>
+    </input>
+    <input node="native::ScooterStatus">
+      <mapping xsi:type="Calculation:AttributeMapping" target="NAME_1" source="NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$STATUS$ID" source="ID"/>
+    </input>
+    <joinAttribute name="JOIN$STATUS$ID"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Join_1_2" cardinality="CN_1" joinType="leftOuter" multiJoinNode="Join_1" multiJoinCentralTable="native::Scooter" multiJoinOrder="Outside In">
+    <viewAttributes>
+      <viewAttribute id="ID"/>
+      <viewAttribute id="NAME"/>
+      <viewAttribute id="MANUFACTUREDATE"/>
+      <viewAttribute id="CHARGELEVEL" aggregationType="sum"/>
+      <viewAttribute id="NAME_1"/>
+      <viewAttribute id="LOCATIONLAT" aggregationType="sum"/>
+      <viewAttribute id="LOCATIONLNG" aggregationType="sum"/>
+      <viewAttribute hidden="true" id="JOIN$MODELID$ID"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="Join_1_1">
+      <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CHARGELEVEL" source="CHARGELEVEL"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="NAME_1" source="NAME_1"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LOCATIONLAT" source="LOCATIONLAT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="LOCATIONLNG" source="LOCATIONLNG"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$MODELID$ID" source="MODELID"/>
+    </input>
+    <input node="native::ScooterModel">
+      <mapping xsi:type="Calculation:AttributeMapping" target="NAME" source="NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="MANUFACTUREDATE" source="MANUFACTUREDATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$MODELID$ID" source="ID"/>
+    </input>
+    <joinAttribute name="JOIN$MODELID$ID"/>
+  </calculationView>
+</calculationViews>
+
+<logicalModel id="Join_1_2">
+  <attributes>
+    <attribute id="ID" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Scooter ID"/>
+      <keyMapping columnObjectName="Join_1_2" columnName="ID"/>
+    </attribute>
+    <attribute id="NAME" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Name"/>
+      <keyMapping columnObjectName="Join_1_2" columnName="NAME"/>
+    </attribute>
+    <attribute id="MANUFACTUREDATE" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Date of manufacture"/>
+      <keyMapping columnObjectName="Join_1_2" columnName="MANUFACTUREDATE"/>
+    </attribute>
+    <attribute id="NAME_1" order="5" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Status label"/>
+      <keyMapping columnObjectName="Join_1_2" columnName="NAME_1"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes>
+    <calculatedAttribute id="NEEDCHARGE" order="8" semanticType="empty" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Does scooter need charge?"/>
+      <keyCalculation datatype="BOOLEAN" expressionLanguage="SQL">
+        <formula>&quot;CHARGELEVEL&quot; &lt; 50</formula>
+      </keyCalculation>
+      </calculatedAttribute>
+  </calculatedAttributes>
+  <baseMeasures>
+    <measure id="CHARGELEVEL" order="4" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="Level of charge"/>
+      <measureMapping columnObjectName="Join_1_2" columnName="CHARGELEVEL"/>
+    </measure>
+    <measure id="LOCATIONLAT" order="6" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="Location lat"/>
+      <measureMapping columnObjectName="Join_1_2" columnName="LOCATIONLAT"/>
+    </measure>
+    <measure id="LOCATIONLNG" order="7" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="Location lng"/>
+      <measureMapping columnObjectName="Join_1_2" columnName="LOCATIONLNG"/>
+    </measure>
+  </baseMeasures>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+  <localDimensions/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="40" y="85"/>
+    </shape>
+    
+  
+    <shape expanded="true" modelObjectName="Join_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="109" y="271"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="native::Scooter" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Join_1">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="172.173828125"/>
+    </shape>
+    <shape modelObjectName="native::ScooterModel" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Join_1">
+      <upperLeftCorner x="320" y="30"/>
+      <rectangleSize width="198.2451171875"/>
+    </shape>
+    <shape modelObjectName="native::ScooterStatus" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Join_1">
+      <upperLeftCorner x="620" y="30"/>
+      <rectangleSize width="188.025390625"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

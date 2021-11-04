@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="native::ScootersOverview" applyPrivilegeType="NONE" dataCategory="DIMENSION" dimensionType="STANDARD" schemaVersion="3.0" outputViewType="Projection" cacheInvalidationPeriod="NONE" enforceSqlExecution="true">
+<descriptions defaultDescription="ScootersOverview"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="native::ScooterStatus">
+    <resourceUri>native::ScooterStatus</resourceUri>
+  </DataSource>
+  <DataSource id="native::ScooterTexts">
+    <resourceUri>native::ScooterTexts</resourceUri>
+  </DataSource>
+  <DataSource id="native::Scooter">
+    <resourceUri>native::Scooter</resourceUri>
+  </DataSource>
+  <DataSource id="native::ScooterModel">
+    <resourceUri>native::ScooterModel</resourceUri>
+  </DataSource>
+  <DataSource id="Scooter_model_2$$$$native::ScooterTexts$$">
+    <resourceUri>native::ScooterTexts</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews>
+  <calculationView xsi:type="Calculation:JoinView" id="Scooter_status" cardinality="C1_1" joinType="textTable" languageColumn="LANGUAGE">
+    <viewAttributes>
+      <viewAttribute id="ID"/>
+      <viewAttribute id="NAME"/>
+      <viewAttribute id="TEXT"/>
+      <viewAttribute hidden="true" id="JOIN$DESCRIPTIONID$ID"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="native::ScooterStatus">
+      <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="NAME" source="NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$DESCRIPTIONID$ID" source="DESCRIPTIONID"/>
+    </input>
+    <input node="native::ScooterTexts">
+      <mapping xsi:type="Calculation:AttributeMapping" target="TEXT" source="TEXT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$DESCRIPTIONID$ID" source="ID"/>
+    </input>
+    <joinAttribute name="JOIN$DESCRIPTIONID$ID"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Scooter_overview" cardinality="CN_1" joinType="leftOuter">
+    <viewAttributes>
+      <viewAttribute id="ID"/>
+      <viewAttribute id="NAME"/>
+      <viewAttribute id="TEXT"/>
+      <viewAttribute id="NEED_CHARGE"/>
+      <viewAttribute id="TEXT_1"/>
+      <viewAttribute id="CHARGELEVEL"/>
+      <viewAttribute hidden="true" id="JOIN$STATUS$ID"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="Scooter_model_2">
+      <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="NAME" source="NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="TEXT" source="TEXT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="NEED_CHARGE" source="NEED_CHARGE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CHARGELEVEL" source="CHARGELEVEL"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$STATUS$ID" source="STATUS"/>
+    </input>
+    <input node="Scooter_status">
+      <mapping xsi:type="Calculation:AttributeMapping" target="TEXT_1" source="TEXT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$STATUS$ID" source="ID"/>
+    </input>
+    <joinAttribute name="JOIN$STATUS$ID"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Scooter_model_1" joinType="leftOuter" multiJoinNode="Scooter_model" multiJoinCentralTable="native::ScooterTexts" multiJoinOrder="Outside In">
+    <viewAttributes>
+      <viewAttribute id="ID"/>
+      <viewAttribute id="NAME"/>
+      <viewAttribute id="CHARGELEVEL"/>
+      <viewAttribute id="STATUS"/>
+      <viewAttribute id="DESCRIPTIONID"/>
+      <viewAttribute hidden="true" id="JOIN$MODELID$ID"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="native::Scooter">
+      <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CHARGELEVEL" source="CHARGELEVEL"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS" source="STATUS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$MODELID$ID" source="MODELID"/>
+    </input>
+    <input node="native::ScooterModel">
+      <mapping xsi:type="Calculation:AttributeMapping" target="NAME" source="NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DESCRIPTIONID" source="DESCRIPTIONID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$MODELID$ID" source="ID"/>
+    </input>
+    <joinAttribute name="JOIN$MODELID$ID"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Scooter_model_2" cardinality="C1_1" joinType="textTable" languageColumn="LANGUAGE" multiJoinNode="Scooter_model" multiJoinCentralTable="native::ScooterTexts" multiJoinOrder="Outside In">
+    <viewAttributes>
+      <viewAttribute id="ID"/>
+      <viewAttribute id="NAME"/>
+      <viewAttribute id="TEXT"/>
+      <viewAttribute id="CHARGELEVEL"/>
+      <viewAttribute id="STATUS"/>
+      <viewAttribute id="DESCRIPTIONID"/>
+    </viewAttributes>
+    <calculatedViewAttributes>
+      <calculatedViewAttribute id="NEED_CHARGE" datatype="BOOLEAN" expressionLanguage="SQL">
+        <formula>&quot;CHARGELEVEL&quot; &lt; 50</formula>
+      </calculatedViewAttribute>
+    </calculatedViewAttributes>
+    <input node="Scooter_model_1">
+      <mapping xsi:type="Calculation:AttributeMapping" target="ID" source="ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="NAME" source="NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CHARGELEVEL" source="CHARGELEVEL"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="STATUS" source="STATUS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DESCRIPTIONID" source="DESCRIPTIONID"/>
+    </input>
+    <input node="Scooter_model_2$$$$native::ScooterTexts$$">
+      <mapping xsi:type="Calculation:AttributeMapping" target="TEXT" source="TEXT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DESCRIPTIONID" source="ID"/>
+    </input>
+    <joinAttribute name="DESCRIPTIONID"/>
+  </calculationView>
+</calculationViews>
+
+<logicalModel id="Scooter_overview">
+  <attributes>
+    <attribute id="ID" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ID"/>
+      <keyMapping columnObjectName="Scooter_overview" columnName="ID"/>
+    </attribute>
+    <attribute id="NAME" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="NAME"/>
+      <keyMapping columnObjectName="Scooter_overview" columnName="NAME"/>
+    </attribute>
+    <attribute id="TEXT" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="TEXT"/>
+      <keyMapping columnObjectName="Scooter_overview" columnName="TEXT"/>
+    </attribute>
+    <attribute id="NEED_CHARGE" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="NEED_CHARGE"/>
+      <keyMapping columnObjectName="Scooter_overview" columnName="NEED_CHARGE"/>
+    </attribute>
+    <attribute id="TEXT_1" order="5" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Text"/>
+      <keyMapping columnObjectName="Scooter_overview" columnName="TEXT_1"/>
+    </attribute>
+  
+    <attribute id="CHARGELEVEL" order="6" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CHARGELEVEL"/>
+  
+      <keyMapping columnObjectName="Scooter_overview" columnName="CHARGELEVEL"/>
+  
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures/>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="-114" y="105"/>
+    
+      <rectangleSize width="160"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="Scooter_status" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="191" y="325"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="native::ScooterStatus" modelObjectNameSpace="Scooter_status" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="188"/>
+    </shape>
+    <shape modelObjectName="native::ScooterTexts" modelObjectNameSpace="Scooter_status" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="320" y="30"/>
+      <rectangleSize width="181"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Scooter_overview" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="-51" y="201"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="Scooter_model_2" modelObjectNameSpace="Scooter_overview" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="250"/>
+    </shape><shape><upperLeftCorner/><rectangleSize/></shape><shape><upperLeftCorner/><rectangleSize/></shape>
+    <shape modelObjectName="Scooter_status" modelObjectNameSpace="Scooter_overview" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="320" y="30"/>
+      <rectangleSize width="250"/>
+    </shape>
+  
+    
+  
+    <shape expanded="true" modelObjectName="Scooter_model" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="-194" y="327"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+    <shape modelObjectName="native::ScooterTexts" modelObjectNameSpace="Scooter_model" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Scooter_model">
+      <upperLeftCorner x="465" y="206"/>
+      <rectangleSize width="181"/>
+    </shape>
+    <shape modelObjectName="native::Scooter" modelObjectNameSpace="Scooter_model" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Scooter_model">
+      <upperLeftCorner x="402" y="-24"/>
+      <rectangleSize width="172"/>
+    </shape>
+    <shape modelObjectName="native::ScooterModel" modelObjectNameSpace="Scooter_model" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Scooter_model">
+      <upperLeftCorner x="59" y="61"/>
+      <rectangleSize width="198"/>
+    </shape></shapes>
+</layout>
+</Calculation:scenario>

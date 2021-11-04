@@ -1,0 +1,133 @@
+{
+    "format_version": 1,
+    "imports": [
+        {
+            "target_table": "native::Scooter",
+            "source_data": {
+                "data_type": "CSV",
+                "file_name": "native.data.Scooter.loads::scooter.csv",
+                "has_header": false,
+                "dialect": "HANA",
+                "type_config": {
+                    "delimiter": ","
+                }
+            },
+            "import_settings": {
+                "include_filter": [],
+                "import_columns": [
+                    "ID",
+                    "MODELID",
+                    "CHARGELEVEL",
+                    "LOCATIONLAT",
+                    "LOCATIONLNG",
+                    "DESCRIPTIONID",
+                    "LANGUAGE",
+                    "STATUS"
+                ]
+            },
+            "column_mappings": {
+                "ID": 1,
+                "MODELID": 2,
+                "CHARGELEVEL": 3,
+                "LOCATIONLAT": 4,
+                "LOCATIONLNG": 5,
+                "DESCRIPTIONID": 6,
+                "LANGUAGE": 7,
+                "STATUS": 8
+            }
+        },
+        {
+            "target_table": "native::ScooterModel",
+            "source_data": {
+                "data_type": "CSV",
+                "file_name": "native.data.Scooter.loads::model.csv",
+                "has_header": false,
+                "dialect": "HANA",
+                "type_config": {
+                    "delimiter": ","
+                }
+            },
+            "import_settings": {
+                "include_filter": [],
+                "import_columns": [
+                    "ID",
+                    "NAME",
+                    "MANUFACTUREDATE",
+                    "DESCRIPTIONID",
+                    "LANGUAGE"
+                ]
+            },
+            "column_mappings": {
+                "ID": 1,
+                "NAME": 2,
+                "MANUFACTUREDATE": 3,
+                "DESCRIPTIONID": 4,
+                "LANGUAGE": 5
+            }
+        },
+        {
+            "target_table": "native::Rent",
+            "source_data": {
+                "data_type": "CSV",
+                "file_name": "native.data.Scooter.loads::rent.csv",
+                "has_header": false,
+                "dialect": "HANA",
+                "delete_existing_foreign_data": true,
+                "type_config": {
+                    "delimiter": ","
+                }
+            },
+            "import_settings": {
+                "include_filter": [],
+                "import_columns": [
+                    "USERID",
+                    "SCOOTERID",
+                    "BEGINTIME",
+                    "ENDTIME",
+                    "INTERVALCOST",
+                    "INTERVAL",
+                    "CURRENCY",
+                    "PAID"
+                ]
+            },
+            "column_mappings": {
+                "USERID": 1,
+                "SCOOTERID": 2,
+                "BEGINTIME": 3,
+                "ENDTIME": 4,
+                "INTERVALCOST": 5,
+                "INTERVAL": 6,
+                "CURRENCY": 7,
+                "PAID": 8
+            }
+        },
+        {
+            "target_table": "native::User",
+            "source_data": {
+                "data_type": "CSV",
+                "file_name": "native.data.Scooter.loads::user.csv",
+                "has_header": false,
+                "delete_existing_foreign_data": true,
+                "dialect": "HANA",
+                "type_config": {
+                    "delimiter": ","
+                }
+            },
+            "import_settings": {
+                "include_filter": [],
+                "import_columns": [
+                    "ID",
+                    "PHONEHASH",
+                    "BALANCE",
+                    "CURRENCY"
+                ]
+            },
+            "column_mappings": {
+                "ID": 1,
+                "PHONEHASH": 2,
+                "BALANCE": 3,
+                "CURRENCY": 4
+            }
+        }
+    ]
+}
