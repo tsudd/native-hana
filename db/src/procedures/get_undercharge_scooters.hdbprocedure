@@ -1,0 +1,66 @@
+PROCEDURE "native.procedures::get_undercharge_scooters"(
+    IN charge_level int,
+    out amount int,
+    out scooters_to_charge TABLE(
+      ID NVARCHAR(32),
+      CHARGELEVEL INT,
+      MANUFACTUREDATE DATE,
+      LASTRIDE TIMESTAMP,
+      TIMEHEADER NVARCHAR(100)
+    )
+  ) 
+  LANGUAGE SQLSCRIPT 
+  SQL SECURITY INVOKER 
+  --DEFAULT SCHEMA <default_schema_name>
+--   READS SQL DATA 
+  AS 
+BEGIN
+DECLARE header NVARCHAR(100);
+DECLARE today_date date = CURRENT_DATE;
+DECLARE scooter_lastride date;
+DECLARE i int;
+DECLARE days_between int;
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION
+  BEGIN
+  DECLARE procedure_name NVARCHAR(500) =::CURRENT_OBJECT_SCHEMA || '.' ||::CURRENT_OBJECT_NAME;
+--   select ::SQL_ERROR_CODE,::SQL_ERROR_MESSAGE from dummy;
+  INSERT INTO "native::LogTable"
+  (ERRORCODE, ERRORMESSAGE, DETAILS)
+  VALUES (
+  ::SQL_ERROR_CODE,
+  ::SQL_ERROR_MESSAGE,
+      :procedure_name
+    );
+   END;
+
+scooters_to_charge =
+SELECT scooter.ID,
+  scooter.CHARGELEVEL,
+  model.MANUFACTUREDATE,
+  rnt.
+ENDTIME AS LASTRIDE,
+  'long ago' AS TIMEHEADER
+FROM "native::Scooter" AS scooter
+  LEFT OUTER JOIN "native::ScooterModel" AS model
+ ON scooter.MODELID = model.ID
+  LEFT OUTER JOIN "native::Rent" AS rnt
+ ON rnt.SCOOTERID = scooter.ID
+WHERE scooter.CHARGELEVEL < :charge_level;
+amount = RECORD_COUNT(:scooters_to_charge);
+FOR i IN 1..amount DO header = :scooters_to_charge.TIMEHEADER [:i];
+-- scooter_lastride = to_date(:scooters_to_charge.LASTRIDE[:i], 'DD-MM-YYYY');
+days_between = DAYS_BETWEEN(:scooters_to_charge.LASTRIDE [:i], today_date);
+IF days_between = 0 THEN header = 'Yesterday';
+elseif days_between < 7 THEN header = 'This week';
+elseif days_between < 14 THEN header = 'Last week';
+elseif days_between < 30 THEN header = 'This month';
+END IF;
+scooters_to_charge [amount - :i + 1] = (
+  :scooters_to_charge.ID [:i],
+  :scooters_to_charge.CHARGELEVEL [:i],
+  :scooters_to_charge.MANUFACTUREDATE [:i],
+  :scooters_to_charge.LASTRIDE [:i],
+  header
+);
+END FOR;
+END
