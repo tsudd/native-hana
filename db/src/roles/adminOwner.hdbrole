@@ -1,0 +1,12 @@
+{
+    "role": {
+        "name": "native.roles::admin#",
+        "schema_roles": [
+            {
+                "names": [
+                    "native.roles::admin"
+                ]
+            }
+        ]
+    }
+}

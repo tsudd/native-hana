@@ -1,0 +1,3 @@
+STRUCTURED PRIVILEGE "native.roles::ScooterOverview"
+FOR SELECT ON "native::OverviewScooters"
+WHERE 1 = 1
