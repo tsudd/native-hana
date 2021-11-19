@@ -43,13 +43,13 @@
   <calculationView xsi:type="Calculation:JoinView" id="Join_1_2" cardinality="CN_1" joinType="leftOuter" multiJoinNode="Join_1" multiJoinCentralTable="native::Scooter" multiJoinOrder="Outside In">
     <viewAttributes>
       <viewAttribute id="ID"/>
-      <viewAttribute id="NAME"/>
-      <viewAttribute id="MANUFACTUREDATE"/>
       <viewAttribute id="CHARGELEVEL" aggregationType="sum"/>
       <viewAttribute id="NAME_1"/>
       <viewAttribute id="LOCATIONLAT" aggregationType="sum"/>
       <viewAttribute id="LOCATIONLNG" aggregationType="sum"/>
-      <viewAttribute hidden="true" id="JOIN$MODELID$ID"/>
+      <viewAttribute id="MODELID"/>
+      <viewAttribute id="NAME"/>
+      <viewAttribute id="MANUFACTUREDATE"/>
     </viewAttributes>
     <calculatedViewAttributes/>
     <input node="Join_1_1">
@@ -58,14 +58,14 @@
       <mapping xsi:type="Calculation:AttributeMapping" target="NAME_1" source="NAME_1"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="LOCATIONLAT" source="LOCATIONLAT"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="LOCATIONLNG" source="LOCATIONLNG"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$MODELID$ID" source="MODELID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="MODELID" source="MODELID"/>
     </input>
     <input node="native::ScooterModel">
       <mapping xsi:type="Calculation:AttributeMapping" target="NAME" source="NAME"/>
       <mapping xsi:type="Calculation:AttributeMapping" target="MANUFACTUREDATE" source="MANUFACTUREDATE"/>
-      <mapping xsi:type="Calculation:AttributeMapping" target="JOIN$MODELID$ID" source="ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="MODELID" source="ID"/>
     </input>
-    <joinAttribute name="JOIN$MODELID$ID"/>
+    <joinAttribute name="MODELID"/>
   </calculationView>
 </calculationViews>
 
@@ -94,7 +94,7 @@
       <keyCalculation datatype="BOOLEAN" expressionLanguage="SQL">
         <formula>&quot;CHARGELEVEL&quot; &lt; 50</formula>
       </keyCalculation>
-      </calculatedAttribute>
+    </calculatedAttribute>
   </calculatedAttributes>
   <baseMeasures>
     <measure id="CHARGELEVEL" order="4" aggregationType="sum" measureType="simple">
@@ -125,17 +125,17 @@
       <upperLeftCorner x="109" y="271"/>
       <rectangleSize height="30" width="160"/>
     </shape>
-    <shape modelObjectName="native::Scooter" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Join_1">
-      <upperLeftCorner x="20" y="30"/>
-      <rectangleSize width="172.173828125"/>
-    </shape>
     <shape modelObjectName="native::ScooterModel" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Join_1">
       <upperLeftCorner x="320" y="30"/>
-      <rectangleSize width="198.2451171875"/>
+      <rectangleSize width="198"/>
+    </shape>
+    <shape modelObjectName="native::Scooter" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Join_1">
+      <upperLeftCorner x="20" y="30"/>
+      <rectangleSize width="172"/>
     </shape>
     <shape modelObjectName="native::ScooterStatus" modelObjectNameSpace="Join_1" modelObjectType="JoinNodeInput" multiJoinViewNodeName="Join_1">
       <upperLeftCorner x="620" y="30"/>
-      <rectangleSize width="188.025390625"/>
+      <rectangleSize width="188"/>
     </shape>
   </shapes>
 </layout>

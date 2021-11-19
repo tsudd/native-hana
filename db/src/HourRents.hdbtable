@@ -1,0 +1,12 @@
+COLUMN TABLE "native::HourRents" (
+    "UserId" NVARCHAR(32) NOT NULL COMMENT 'Renter',
+    "BeginTime" TIMESTAMP NOT NULL COMMENT 'Begin time',
+    "EndTime" TIMESTAMP NOT NULL COMMENT 'End time',
+    "IntervalCost" DECIMAL(15, 2) COMMENT 'Interval cost',
+    "Interval" NVARCHAR(1) COMMENT 'Interval',
+    "Currency" NVARCHAR(5) COMMENT 'Currency',
+    "Paid" BOOLEAN COMMENT 'Paid',
+    "ScooterId" NVARCHAR(32) COMMENT 'Scooter ID',
+    "ScooterStatus" NVARCHAR(1) COMMENT 'Scooter status',
+    "ChargeLevel" INTEGER COMMENT 'Charge level'
+)
