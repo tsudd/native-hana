@@ -1,3 +1,4 @@
 {
-    "SAP HANA Database Artifacts.lastSelectedTargetPath": "/home/user/projects/native-hana/db/cfg"
+    "SAP HANA Database Artifacts.lastSelectedTargetPath": "/home/user/projects/native-hana/db/cfg",
+    "[javascript].editor.defaultFormatter": "esbenp.prettier-vscode"
 }
