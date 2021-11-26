@@ -6,9 +6,11 @@ modules:
   type: hdb
   path: db
   requires:
-  - name: hdi_db
+  - name: cross-container-service-1
+    group: SERVICE_REPLACEMENTS
     properties:
-      TARGET_CONTAINER: ~{hdi-container-name}
+      key: ServiceName_1
+      service: ~{the-service-name}
 resources:
 - name: hdi_db
   type: com.sap.xs.hdi-container
@@ -17,3 +19,9 @@ resources:
       schema: native
   properties:
     hdi-container-name: ${service-name}
+- name: cross-container-service-1
+  type: org.cloudfoundry.existing-service
+  parameters:
+    service-name: nice_project-hdidb-new
+  properties:
+    the-service-name: ${service-name}

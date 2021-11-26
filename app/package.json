@@ -1,0 +1,22 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "Application layer for hana native test project",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsudd/native-hana.git"
+  },
+  "author": "tsudd",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tsudd/native-hana/issues"
+  },
+  "homepage": "https://github.com/tsudd/native-hana#readme",
+  "dependencies": {
+    "@sap/hana-client": "^2.10.20"
+  }
+}

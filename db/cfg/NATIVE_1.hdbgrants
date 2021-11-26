@@ -1,0 +1,23 @@
+{}
+// {
+//     "external_access": {
+//         "object_owner": {
+//             "schema_roles": [
+//                 {
+//                     "roles": [
+//                         "native.roles::admin"
+//                     ]
+//                 }
+//             ]
+//         },
+//         "application_user": {
+//             "schema_roles": [
+//                 {
+//                     "roles": [
+//                         "native.roles::admin"
+//                     ]
+//                 }
+//             ]
+//         }
+//     }
+// }
